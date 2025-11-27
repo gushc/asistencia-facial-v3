@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Asistencia Facial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Sistema de Asistencia por Reconocimiento Facial</h1>
+            <p class="subtitle">Versión Flask</p>
+        </header>
+
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Estado Cámara:</span>
+                <span id="estado-camara" class="status-value">---</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Personas Registradas:</span>
+                <span id="personas-registradas" class="status-value">---</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Última Asistencia:</span>
+                <span id="ultima-asistencia" class="status-value">---</span>
+            </div>
+        </div>
+
+        <div class="video-container">
+            <img id="video-feed" src="{{ url_for('video_feed') }}" alt="Video en tiempo real">
+        </div>
+
+        <div class="controls">
+            <button onclick="iniciarReconocimiento()" class="btn btn-primary">▶ Iniciar Reconocimiento</button>
+            <button onclick="detenerReconocimiento()" class="btn btn-secondary">⏹ Detener</button>
+            <button onclick="verAsistencias()" class="btn btn-info">📊 Ver Asistencias</button>
+        </div>
+
+        <div id="resultados" class="results-panel" style="display: none;">
+            <h3>📋 Historial de Asistencias</h3>
+            <div id="lista-asistencias" class="asistencias-list"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <script>
+        // Inicialización segura después de cargar el script
+        setTimeout(function() {
+            if (typeof actualizarEstado === 'function') {
+                actualizarEstado();
+                setInterval(actualizarEstado, 5000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
